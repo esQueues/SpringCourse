@@ -7,6 +7,9 @@
 <body>
 <div th:object="${person}">
   <h1 th:text="${person.fullName}+', '+${person.year}">User</h1>
+
 </div>
+<a th:href="@{/people/{id}/edit(id=${person.id})}">Edit</a>
+
 </body>
 </html>
