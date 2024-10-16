@@ -1,7 +1,9 @@
 package project1.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project1.dao.PersonDAO;
 import project1.models.Person;
@@ -34,7 +36,13 @@ public class PeopleController {
     }
 
     @PostMapping() //@RequestParam("name")String name,@RequestParam("age")
-    public String save(@ModelAttribute("person")Person person){
+    public String save(@ModelAttribute("person") @Valid Person person,
+                       BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors())
+            return "people/new";
+
+
         personDAO.save(person);
         return "redirect:/people";
     }
@@ -45,8 +53,17 @@ public class PeopleController {
          return "people/edit";
     }
     @PostMapping("/{id}")
-    public String update(@PathVariable("id")int id,@ModelAttribute("person")Person person){
+    public String update(@PathVariable("id")int id,@ModelAttribute("person") @Valid Person person,
+                         BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return "people/edit";
         personDAO.update(id,person);
+        return "redirect:/people";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") int id){
+        personDAO.delete(id);
         return "redirect:/people";
     }
 }

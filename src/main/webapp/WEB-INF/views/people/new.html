@@ -6,12 +6,19 @@
 </head>
 <body>
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
-<label for="fullName">Enter fullName:</label>
+    <label for="fullName">Enter fullName:</label>
     <input type="text" id="fullName" th:field="*{fullName}">
-<br>
- <label for="year">Enter year:</label>
+    <div style="color: red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name error</div>
+    <br>
+    <label for="year">Enter year:</label>
     <input type="text" id="year" th:field="*{year}">
- <input type="submit" value="Create">
+    <div style="color: red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year error</div>
+    <br>
+    <label for="email">Enter email:</label>
+    <input type="text" id="email" th:field="*{email}">
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+
+    <input type="submit" value="Create">
 </form>
 </body>
 </html>

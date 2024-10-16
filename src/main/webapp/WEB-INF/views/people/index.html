@@ -6,10 +6,16 @@
 </head>
 <body>
 <div th:object="${person}">
-  <h1 th:text="${person.fullName}+', '+${person.year}">User</h1>
+    <h1 th:text="${person.fullName}+', '+${person.year}">User</h1>
+    <h1 th:text="'Email: '+${person.getEmail()}">User</h1>
+
 
 </div>
 <a th:href="@{/people/{id}/edit(id=${person.id})}">Edit</a>
+<br>
+<form th:action="@{/people/{id}/delete(id=${person.id})}" method="post">
+    <button type="submit">Delete</button>
+</form>
 
 </body>
 </html>
