@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project1.models.Book;
-import project1.models.Person;
 
 import java.util.List;
 
@@ -19,13 +18,23 @@ public class BookDAO {
     }
 
     public Book index(int id){
-        return jdbcTemplate.query("SELECT FROM Book WHERE id=?",
+        return jdbcTemplate.query("SELECT *FROM Book WHERE id=?",
                 new BeanPropertyRowMapper<>(Book.class),id).stream().findAny().orElse(null);
     }
 
     public List<Book> show(){
         return jdbcTemplate.query("SELECT *FROM Book",
                 new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void update(int id, Book updatedBook){
+        jdbcTemplate.update("UPDATE book set title=?, year=?, author=? WHERE id=?",
+                updatedBook.getTitle(), updatedBook.getYear(), updatedBook.getAuthor(),id);
+    }
+
+
+    public void delete(int id){
+        jdbcTemplate.update("DELETE FROM book where id=?",id);
     }
 
     public void save(Book book){
