@@ -1,13 +1,24 @@
 package project1.models;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class Book {
     private int id;
+    @NotEmpty(message = "Title should not be empty")
+    @Size(min = 2, max = 100, message = "Title should be between 2 and 100 characters")
     private String title;
+
+    @NotEmpty(message = "Author should not be empty")
+    @Size(min = 2, max = 100, message = "Author should be between 2 and 100 characters")
     private String author;
+    @Min(value = 2, message = "Age should be greater than 0")
     private int year;
 
     public Book(){
     }
+
 
     public Book(String title, String author, int year) {
         this.title = title;

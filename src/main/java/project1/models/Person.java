@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class Person {
     private int id;
     @NotEmpty(message = "Full name should not be empty")
-    @Size(min = 2, max = 50, message = "Full name should be between 2 and 30 characters")
+    @Size(min = 2, max = 50, message = "Full name should be between 2 and 50 characters")
     private String fullName;
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")

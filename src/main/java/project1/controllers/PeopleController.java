@@ -19,7 +19,7 @@ public class PeopleController {
     }
 
     @GetMapping()
-    public String show(Model model){
+    public String show( Model model){
         model.addAttribute("people",personDAO.show());
         return "people/show";
     }
@@ -27,6 +27,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String index(@PathVariable("id")int id,Model model){
         model.addAttribute(personDAO.index(id));
+        model.addAttribute("books",personDAO.getBooksOfPerson(id));
         return "people/index";
     }
 
