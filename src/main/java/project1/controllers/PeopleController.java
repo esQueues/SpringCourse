@@ -53,6 +53,7 @@ public class PeopleController {
          model.addAttribute("person",personDAO.index(id));
          return "people/edit";
     }
+
     @PostMapping("/{id}")
     public String update(@PathVariable("id")int id,@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult){
