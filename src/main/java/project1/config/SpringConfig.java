@@ -78,10 +78,10 @@ public class SpringConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-    //    @Bean
-//    public JdbcTemplate jdbcTemplate(){
-//        return new JdbcTemplate(dataSource());
-//    }
+        @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
@@ -94,7 +94,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("project1");
+        sessionFactory.setPackagesToScan("project1.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -107,5 +107,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return transactionManager;
     }
+
+
 }
 
