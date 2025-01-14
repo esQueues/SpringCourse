@@ -3,6 +3,7 @@ package project1.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import project1.models.Person;
 import project1.services.BookService;
 import project1.services.PeopleService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -35,8 +37,16 @@ public class BookController {
 
 
     @GetMapping
-    public String show(Model model) {
-        model.addAttribute("books", bookService.findAllBooks());
+    public String show(Model model,
+                       @RequestParam(name = "page", required = false) Integer page,
+                       @RequestParam(name = "books_per_page", required = false) Integer books_per_page,
+                       @RequestParam(name = "sort_by_year", required = false) boolean sort_by_year) {
+        if (books_per_page == null || page == null) {
+            model.addAttribute("books", bookService.findAllBooks(sort_by_year));
+        } else {
+            model.addAttribute("books", bookService.findAllBooksPagination(page, books_per_page, sort_by_year));
+        }
+
         return "books/show";
     }
 
@@ -53,6 +63,24 @@ public class BookController {
 
         return "books/index";
     }
+
+
+        @GetMapping("/search")
+        public String searchBooks(@RequestParam(name = "contains", required = false) String startingWith,
+                                  Model model) {
+            if (startingWith == null || startingWith.isEmpty()) {
+                model.addAttribute("zero", true);
+                return "books/search";
+            }
+            List<Book> books = bookService.searchBooks(startingWith);
+
+            if (books.isEmpty()) {
+                model.addAttribute("zero", true);
+            } else {
+                model.addAttribute("findBooks", books);
+            }
+            return "books/search";
+        }
 
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
